@@ -1,0 +1,87 @@
+# ============================================
+# Terraform
+# ============================================
+
+# Terraform working directory
+.terraform/
+.terraform.lock.hcl
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Terraform crash logs
+crash.log
+crash.*.log
+
+# Terraform state lock information
+.terraform.tfstate.lock.info
+
+# Terraform plan files
+*.tfplan
+*.tfplan.json
+
+# Terraform override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform CLI configuration
+.terraformrc
+terraform.rc
+
+# NOTE:
+# terraform.tfvars is intentionally tracked.
+# .terraform.lock.hcl is intentionally tracked.
+
+
+# ============================================
+# Secrets & Credentials
+# ============================================
+
+*.pem
+*.key
+*.pfx
+*.p12
+*.crt
+
+.env
+.env.*
+!.env.example
+
+azure_credentials.json
+service-principal.json
+
+
+# ============================================
+# IDE / Editor
+# ============================================
+
+.vscode/
+.idea/
+.history/
+
+
+# ============================================
+# Operating System
+# ============================================
+
+.DS_Store
+Thumbs.db
+
+
+# ============================================
+# Logs
+# ============================================
+
+*.log
+
+
+# ============================================
+# Temporary Files
+# ============================================
+
+*.tmp
+*.temp
+*.swp
+*.swo
