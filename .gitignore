@@ -1,38 +1,76 @@
 # ============================================
-# Terraform
+# VARISEN ENTERPRISE - Terraform .gitignore
 # ============================================
 
-# Terraform working directory
+# ============================================
+# Terraform Working Directory
+# ============================================
+
 .terraform/
-.terraform.lock.hcl
-# Terraform state files
+
+
+# ============================================
+# Terraform State Files
+# ============================================
+
 *.tfstate
 *.tfstate.*
 
-# Terraform crash logs
+
+# ============================================
+# Terraform Crash Logs
+# ============================================
+
 crash.log
 crash.*.log
 
-# Terraform state lock information
-.terraform.tfstate.lock.info
 
-# Terraform plan files
+# ============================================
+# Terraform Plan Files
+# ============================================
+
 *.tfplan
 *.tfplan.json
 
-# Terraform override files
+
+# ============================================
+# Terraform State Lock Information
+# ============================================
+
+.terraform.tfstate.lock.info
+
+
+# ============================================
+# Terraform Override Files
+# ============================================
+
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
 
-# Terraform CLI configuration
+
+# ============================================
+# Terraform CLI Configuration
+# ============================================
+
 .terraformrc
 terraform.rc
 
-# NOTE:
-# terraform.tfvars is intentionally tracked.
-# .terraform.lock.hcl is intentionally tracked.
+
+# ============================================
+# IMPORTANT
+# ============================================
+# .tfvars files are intentionally TRACKED.
+# .terraform.lock.hcl is intentionally TRACKED.
+#
+# Make sure .tfvars does NOT contain:
+# - Passwords
+# - Client secrets
+# - API keys
+# - Private keys
+# - Access tokens
+# ============================================
 
 
 # ============================================
