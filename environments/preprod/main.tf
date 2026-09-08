@@ -136,20 +136,20 @@ module "preprod-modules-policy" {
 }
 
 # Resource Locks - Protects critical Azure resources from accidental deletion or unauthorized modification.
-# module "preprod-modules-resource-lock" {
-#   source = "../../Modules/azurerm_resource_lock"
-#   depends_on = [
-#     module.preprod-modules-rgs,
-#     module.preprod-modules-vnets,
-#     module.preprod-modules-vms,
-#     module.preprod-modules-key-vaults,
-#     module.preprod-modules-bastion
-#   ]
+module "preprod-modules-resource-lock" {
+  source = "../../Modules/azurerm_resource_lock"
+  depends_on = [
+    module.preprod-modules-rgs,
+    module.preprod-modules-vnets,
+    module.preprod-modules-vms,
+    module.preprod-modules-key-vaults,
+    module.preprod-modules-bastion
+  ]
 
-#   preprod-resource-locks = var.preprod-resource-locks
-#   resource_group_ids     = module.preprod-modules-rgs.resource_group_ids
-#   virtual_network_ids    = module.preprod-modules-vnets.virtual_network_ids
-#   virtual_machine_ids    = module.preprod-modules-vms.virtual_machine_ids
-#   key_vault_ids          = module.preprod-modules-key-vaults.key_vault_ids
-#   bastion_ids            = module.preprod-modules-bastion.bastion_ids
-# }
+  preprod-resource-locks = var.preprod-resource-locks
+  resource_group_ids     = module.preprod-modules-rgs.resource_group_ids
+  virtual_network_ids    = module.preprod-modules-vnets.virtual_network_ids
+  virtual_machine_ids    = module.preprod-modules-vms.virtual_machine_ids
+  key_vault_ids          = module.preprod-modules-key-vaults.key_vault_ids
+  bastion_ids            = module.preprod-modules-bastion.bastion_ids
+}
