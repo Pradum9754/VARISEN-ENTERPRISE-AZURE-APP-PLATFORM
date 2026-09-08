@@ -1,0 +1,749 @@
+🥇 Checkov     → IaC Security
+    python -m pip install checkov
+    checkov -d .
+
+🥈 Trivy       → IaC + Container Security
+   For isntall - winget install AquaSecurity.Trivy
+   trivy fs .
+
+🥉 Gitleaks    → Secrets
+    For Installation - winget install gitleaks
+    gitleaks detect
+    without GIT - & "$env:LOCALAPPDATA\Microsoft\WinGet\Packages\Gitleaks.Gitleaks_Microsoft.Winget.Source_8wekyb3d8bbwe\gitleaks.exe" dir .
+    Get-Command gitleaks -All
+    REPORT Dekhna - notepad gitleaks-report.json
+
+🏅 TFLint      → Terraform Quality
+    tflint --init
+    tflint --chdir .
+    
+💰 Infracost   → Infrastructure Cost
+    infracost --version
+    infracost auth login
+    infracost breakdown --path .
+    infracost breakdown --path . --format json --out-file infracost-base.json
+    infracost diff --path . --compare-to infracost-base.json
+
+🥇 Terrascan 
+   winget install Tenable.Terrascan
+   OR
+   winget install GoLang.Go
+   OR if Path Issue
+   $env:Path += ";C:\Program Files\Go\bin"
+   go version
+   OR
+   git clone https://github.com/tenable/terrascan.git
+   cd terrascan
+   go build -o terrascan.exe ./cmd/terrascan
+   .\terrascan.exe scan -i terraform -d "C:\Users\pradu\OneDrive\Desktop\Production-Code\environments\preprod"
+   OR
+   go install github.com/tenable/terrascan/cmd/terrascan@latest
+   $env:Path += ";$env:USERPROFILE\go\bin"
+   terrascan scan -i terraform
+   
+🥈 TruffleHog 
+   winget search TruffleHog
+   OR
+   docker run --rm -v "${PWD}:/scan" trufflesecurity/trufflehog:latest filesystem /scan
+   OR
+  FOR LINUX-  irm https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | iex
+   OR
+  FOR POWERSHEL -  winget install trufflesecurity.trufflehog
+  OR
+  $version = "3.97.1"
+$url = "https://github.com/trufflesecurity/trufflehog/releases/download/v$version/trufflehog_${version}_windows_amd64.tar.gz"
+
+Invoke-WebRequest -Uri $url -OutFile "$env:TEMP\trufflehog.tar.gz"
+  
+  Get-Item "$env:TEMP\trufflehog.tar.gz"
+  
+New-Item -ItemType Directory -Force "$env:USERPROFILE\trufflehog" | Out-Null
+
+tar -xzf "$env:TEMP\trufflehog.tar.gz" -C "$env:USERPROFILE\trufflehog"
+
+ PATH add
+ $env:Path += ";$env:USERPROFILE\trufflehog"
+trufflehog --version
+
+For SCAN 
+trufflehog filesystem .
+Git history bhi scan karna ho
+trufflehog git "C:\Users\pradu\OneDrive\Desktop\Production-Code\environments\preprod"
+
+🥉 terraform-docs
+   Get-ChildItem "C:\Program Files\Go\bin\go.exe" -ErrorAction SilentlyContinue
+   Get-ChildItem "C:\Program Files\Go\bin\go.exe" -ErrorAction SilentlyContinue
+   $env:Path += ";C:\Program Files\Go\bin"
+   go version
+   go install github.com/terraform-docs/terraform-docs@latest
+   $env:Path += ";$env:USERPROFILE\go\bin"
+   terraform-docs --version
+   terraform-docs markdown table . > terraform-docs.md
+   Get-Item .\terraform-docs.md
+
+Layer	Tool	Priority	Simple kaam
+Terraform quality	TFLint	🔴 Must	Terraform ki quality/best practices
+IaC security	Checkov	🔴 Must	Terraform/IaC security + compliance
+IaC/container security	Trivy	🔴 Must	IaC + Docker image vulnerabilities/misconfig
+Secrets	Gitleaks	🔴 Must	Git me leaked secrets
+Application SAST	Semgrep OR SonarQube	🔴 Must	Application source-code security
+Dependency/SCA	Trivy OR Snyk	🔴 Must	Vulnerable libraries/dependencies
+Container	Trivy image	🔴 Must	Docker image vulnerabilities
+Cost	Infracost	🟠 Recommended	Terraform change ka cost
+Governance	Azure Policy	🔴 Production Must	Azure resources ke organizational rules
+Cloud security	Defender for Cloud	🔴 Production Must	Azure security posture
+
+🏆 Production DevSecOps Toolbox
+                         PROJECT
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+    Terraform           Application          Docker
+       │                   │                   │
+       ▼                   ▼                   ▼
+     IaC Scan          SAST / SCA          Image Scan
+       │                   │                   │
+       └───────────────────┼───────────────────┘
+                           │
+                           ▼
+                      Kubernetes
+                           │
+                           ▼
+                    K8s Security
+                           │
+                           ▼
+                   Secrets / Git
+                           │
+                           ▼
+                      Governance
+                           │
+                           ▼
+                   Cloud Security
+                           │
+                           ▼
+                         Cost
+
+1. 🟦 Terraform / IaC
+Question:
+
+"Mera infrastructure code secure, valid aur best-practice compliant hai?"
+
+Main tools
+Tool	Purpose	Priority
+terraform fmt	Formatting	🔴 Must
+terraform validate	Configuration validation	🔴 Must
+TFLint	Terraform linting/best practices	🔴 Must
+Checkov	IaC security/compliance	🔴 Must
+Trivy config	IaC misconfiguration	🔴 Must
+Gitleaks	Secrets	🔴 Must
+Infracost	Cost estimation	🟠 Recommended
+tfsec	Terraform security	🟡 Optional
+Terrascan	IaC security/compliance	🟡 Optional
+OPA/Conftest	Custom policies	🟠 Advanced
+
+Main 5 yaad rakho:
+fmt
+validate
+TFLint
+Checkov
+Trivy
+
+Plus:
+
+Gitleaks
+Infracost
+
+2. 🟩 Application / Source Code
+Suppose:
+
+Java
+.NET
+Python
+Node.js
+Go
+
+Question:
+
+"Developer ne application code secure likha hai?"
+
+Tools
+Category	Tool examples
+SAST	SonarQube, Semgrep
+SCA	Snyk, Dependabot, OWASP Dependency-Check, Trivy
+Secret Scan	Gitleaks
+Unit Testing	JUnit, pytest, NUnit, etc.
+Code Quality	SonarQube
+API Security	DAST/API testing tools
+
+Yaad rakho:
+Application
+   ↓
+SAST → Code
+SCA  → Dependencies
+Gitleaks → Secrets
+
+3. 🐳 Docker / Container
+Ab Dockerfile aur image.
+
+Question:
+
+"Meri container image secure hai?"
+
+Main tools
+Tool	Purpose
+Trivy	Image vulnerabilities
+Grype	Image/package vulnerability scanning
+Docker Scout	Container image analysis
+Hadolint	Dockerfile linting
+Gitleaks	Secrets
+
+Main baseline:
+Dockerfile
+    ↓
+Hadolint
+    ↓
+Docker Build
+    ↓
+Trivy image scan
+    ↓
+Push to ACR
+
+Yaad rakho
+Hadolint = Dockerfile quality
+Trivy = Docker image security
+
+4. 🟪 Kubernetes / AKS
+Ab maan lo tumhare paas:
+
+deployment.yaml
+service.yaml
+ingress.yaml
+configmap.yaml
+RBAC
+Helm
+
+Question:
+
+"Kubernetes configuration secure hai?"
+
+Tools
+Tool	Purpose
+Trivy	Kubernetes/IaC security scanning
+Checkov	Kubernetes/IaC policy checks
+Kubescape	Kubernetes security posture
+Kube-bench	Kubernetes CIS benchmark checks
+kube-linter	Kubernetes YAML best practices
+Kyverno	Kubernetes policy enforcement
+OPA Gatekeeper	Kubernetes policy enforcement
+
+Main baseline
+K8s YAML
+   ↓
+kube-linter
+   ↓
+Trivy
+   ↓
+Checkov
+   ↓
+Policy
+   ↓
+Deploy
+
+Production/runtime
+AKS
+ │
+ ├── Azure Policy
+ ├── Defender for Cloud
+ └── Kubernetes policies
+
+5. 🟨 Git / Secret Security
+Question:
+
+"Kahin developer ne password/API key/token Git me commit to nahi kar diya?"
+
+Main tools
+Gitleaks
+TruffleHog
+Main baseline:
+
+Git Repository
+      ↓
+Gitleaks
+      ↓
+Secret found?
+      ↓
+FAIL
+
+Yaad rakho
+Gitleaks = Git ka secret police 🚨
+
+6. 🟥 Dependency Security / SCA
+Ye application ki libraries ke liye separate category hai.
+
+Example:
+
+pom.xml
+package.json
+requirements.txt
+*.csproj
+
+Question:
+
+"Kya meri third-party dependency vulnerable hai?"
+
+Tools:
+
+Snyk
+Dependabot
+Mend
+OWASP Dependency-Check
+Trivy
+Yaad rakho
+SCA = Library check
+
+7. 🟧 SAST — Application Code Security
+Question:
+
+"Developer ne code galat/insecure pattern se to nahi likha?"
+
+Tools:
+
+SonarQube
+Semgrep
+Checkmarx
+Fortify
+Veracode
+Example:
+
+Java Code
+   ↓
+SAST
+   ↓
+SQL Injection pattern
+   ↓
+Finding
+
+Yaad rakho
+SAST = Source Code
+
+8. 🟫 DAST — Running Application
+Question:
+
+"Application deploy hone ke baad bahar se attack karne par kya hoga?"
+
+Tools:
+
+OWASP ZAP
+Burp Suite
+Commercial DAST platforms
+Flow:
+
+Build
+ ↓
+Deploy to Dev/Test/Staging
+ ↓
+Running URL
+ ↓
+DAST
+ ↓
+Security Test
+
+Yaad rakho
+DAST = Running Application
+
+9. 🛡️ Governance / Policy
+Question:
+
+"Company ke rules follow ho rahe hain?"
+
+Example rules:
+
+Production resource public nahi hona chahiye
+Mandatory tags hone chahiye
+Only approved Azure regions
+Encryption required
+Specific SKUs only
+
+Tools:
+
+Azure Policy
+OPA
+Conftest
+Kyverno — Kubernetes ke liye
+Memory:
+OPA
+ ↓
+Custom Policy
+
+Azure Policy
+ ↓
+Azure Governance
+
+Kyverno
+ ↓
+Kubernetes Policy
+
+10. ☁️ Cloud Security / CSPM
+Infrastructure deploy ho gaya.
+
+Ab question:
+
+"Actual Azure environment ki security posture kaisi hai?"
+
+Main:
+
+Microsoft Defender for Cloud
+
+Ye broader cloud security posture aur workload protection/recommendations ke liye hai.
+
+Azure Environment
+       ↓
+Defender for Cloud
+       ↓
+Security Posture
+       ↓
+Recommendations / Alerts
+
+Memory
+Defender = Cloud Security Control Center
+
+11. 💰 Cost Optimization
+Question:
+
+"Infrastructure change ke baad bill kitna badhega?"
+
+Main:
+
+Infracost
+
+Example:
+
+Terraform PR
+    ↓
+Infracost
+    ↓
+Current: $500
+New:     $850
+    ↓
++$350/month
+
+Memory
+Infracost = Infrastructure ka price tag
+
+12. 🔐 Secrets Management
+Scanner secret detect karta hai.
+
+Lekin secret store kahan karna hai?
+
+Azure project me:
+
+Azure Key Vault
+
+Aur workload identity/managed identity based access ko prefer karna generally better hai where applicable.
+
+Concept:
+
+❌ Terraform code
+password = "abc123"
+
+❌ Git
+secret = "abc123"
+
+✅ Key Vault
+      ↑
+Managed Identity / secure mechanism
+
+Difference:
+Gitleaks
+→ Secret leak detect
+
+Key Vault
+→ Secret securely store/manage
+
+Bahut important distinction hai.
+
+13. 📦 Artifact Security
+Application build ke baad:
+
+.jar
+.war
+.zip
+.nupkg
+npm package
+container
+
+artifact ban sakta hai.
+
+Question:
+
+"Kya jo artifact main deploy kar raha hoon trusted aur controlled hai?"
+
+Production practices:
+
+Artifact Repository
+      ↓
+ACR / Azure Artifacts
+      ↓
+Immutable/versioned artifacts
+      ↓
+Access control
+      ↓
+Deployment
+
+Container ke liye ACR scanning/security capabilities ko bhi architecture me consider kiya ja sakta hai.
+
+14. 🔑 Identity & Access Security
+Ye scanner category nahi hai, but production security ka extremely important part hai.
+
+Azure:
+
+Microsoft Entra ID
+Managed Identity
+RBAC
+Service Connections
+Workload Identity
+
+Question:
+
+"Kaun kya access kar sakta hai?"
+
+Golden principle:
+
+Least Privilege
+
+Matlab:
+
+Developer
+   ↓
+jitna required hai
+   ↓
+utna hi access
+
+15. 📊 Monitoring / Detection
+Security scan se prevention hota hai.
+
+Lekin production me:
+
+"Attack/incident ho raha hai to pata kaise chalega?"
+
+Azure ecosystem me:
+
+Azure Monitor
+Log Analytics
+Microsoft Sentinel
+Defender for Cloud
+
+jaise tools/services relevant ho sakte hain.
+
+Simple:
+
+Prevent
+ ↓
+Detect
+ ↓
+Alert
+ ↓
+Respond
+
+16. 🌐 API / Web Security
+Agar application API expose karti hai:
+
+/api/users
+/api/orders
+/api/payment
+
+to API security bhi important hai.
+
+DAST/API testing se:
+
+Authentication
+Authorization
+Input validation
+Security headers
+API exposure
+
+jaise areas test kiye ja sakte hain.
+
+17. 📋 Compliance
+Agar company regulated environment me hai:
+
+ISO 27001
+SOC 2
+PCI DSS
+CIS
+NIST
+HIPAA
+etc.
+
+to compliance requirements aa sakti hain.
+
+Relevant controls/tools:
+
+Checkov
+Azure Policy
+Defender for Cloud
+OPA
+CIS benchmark tooling
+
+Lekin yaad rakho:
+
+Tool compliance ko "automatically guarantee" nahi karta.
+
+Compliance is broader:
+
+Policy
++
+Technical Controls
++
+Evidence
++
+Process
++
+Audit
+
+18. 🧪 Testing category
+Security ke alawa normal testing bhi important:
+
+Unit Test
+Integration Test
+API Test
+End-to-End Test
+Performance Test
+Security Test
+
+Application pipeline me:
+
+Build
+ ↓
+Unit
+ ↓
+Integration
+ ↓
+Security
+ ↓
+Package
+
+19. 🔥 Ab complete production map
+Isko save kar lena bhai:
+
+                         DEVSECOPS
+                            │
+ ┌──────────────────────────┼──────────────────────────┐
+ │                          │                          │
+ ▼                          ▼                          ▼
+TERRAFORM                APPLICATION                DOCKER
+ │                          │                          │
+ ├─ fmt                     ├─ SAST                    ├─ Hadolint
+ ├─ validate                ├─ SCA                     ├─ Trivy
+ ├─ TFLint                  ├─ Gitleaks                └─ Image Scan
+ ├─ Checkov                 ├─ Tests
+ ├─ Trivy                   └─ DAST
+ ├─ Gitleaks
+ ├─ OPA
+ └─ Infracost
+                            │
+                            ▼
+                       KUBERNETES
+                            │
+                       ┌────┼────┐
+                       │    │    │
+                    Trivy Checkov
+                       │
+                  kube-linter
+                       │
+                   Kubescape
+                       │
+                  Kube-bench
+                       │
+               Kyverno / OPA
+                       
+                            │
+                            ▼
+                     AZURE CLOUD
+                            │
+                 ┌──────────┼──────────┐
+                 ▼          ▼          ▼
+             Azure Policy Defender  Key Vault
+                            │
+                            ▼
+                       Monitoring
+                            │
+                   ┌────────┴────────┐
+                   ▼                 ▼
+              Azure Monitor       Sentinel
+
+20. 🏆 Agar company bole "minimum production stack do"
+Main ise 5 buckets me rakhunga:
+
+Terraform
+Terraform fmt
+Terraform validate
+TFLint
+Checkov
+Trivy
+Gitleaks
+Infracost
+
+Application
+SAST
+SCA
+Gitleaks
+Unit/Integration Tests
+
+Docker
+Hadolint
+Trivy Image
+
+Kubernetes/AKS
+Trivy
+Checkov
+kube-linter
+Kubescape/Kube-bench
+Kyverno/OPA where needed
+
+Azure
+Azure Policy
+Defender for Cloud
+Key Vault
+Entra ID/RBAC
+Azure Monitor
+Sentinel where required
+
+🧠 Final "kabhi nahi bhoolunga" formula
+Bhai bas artifact dekh aur tool choose kar:
+
+Mere paas kya hai?	Main kya check karunga?
+.tf	TFLint + Checkov + Trivy
+Terraform plan	Infracost + policy/review
+Git repo	Gitleaks
+Java/.NET/Python/Node code	SAST
+pom.xml/package.json/requirements.txt	SCA
+Dockerfile	Hadolint
+Docker image	Trivy
+K8s YAML/Helm	Trivy + Checkov + kube-linter
+Running web/API	DAST
+Azure resources	Azure Policy
+Azure security posture	Defender for Cloud
+Secrets	Key Vault + Gitleaks
+Infrastructure cost	Infracost
+Identity/access	Entra ID + RBAC
+Logs/alerts	Azure Monitor/Log Analytics/Sentinel
+
+🔥 Ultimate mantra
+.tf → IaC scan
+Source code → SAST
+Libraries → SCA
+Git → Gitleaks
+Dockerfile → Lint
+Docker image → Trivy
+K8s YAML → K8s/IaC scan
+Running app → DAST
+Azure → Policy + Defender
+Secrets → Key Vault
+Cost → Infracost
+
+Aur pipeline ka kaam in sab checks ko orchestrate karna hai — pipeline khud koi ek security category nahi hai. Ye distinction samajh gaya to tum kisi bhi naye tool ko dekhkar 30 seconds me decide kar sakte ho: "ye kis layer ke liye hai aur meri pipeline me kahan lagega?"
+
+
+

@@ -1,0 +1,10 @@
+{
+  "SchemaVersion": 2,
+  "Trivy": {
+    "Version": "0.74.0"
+  },
+  "ReportID": "01a081c1-e539-767e-8a38-5b7690c7072c",
+  "CreatedAt": "2026-09-08T21:32:43.1294255+05:30",
+  "ArtifactName": "C:/Users/pradu/OneDrive/Desktop/Production-Code",
+  "ArtifactType": "filesystem"
+}
